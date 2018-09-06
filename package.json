@@ -3,12 +3,12 @@
   "version": "1.0.0",
   "description": "A party for your computer and you",
   "main": "index.js",
-  "repository": "github.com/lislis/party42",
+  "repository": "github.com/lislis/party-4-2",
   "author": "lislis",
   "license": "MIT",
   "private": false,
   "scripts": {
-    "build": "webpack -p",
+    "build": "webpack -p",-
     "start": "webpack-dev-server --open"
   },
   "devDependencies": {
