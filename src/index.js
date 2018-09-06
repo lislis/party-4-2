@@ -1,22 +1,5 @@
 import JukeGen from 'jukegen';
 //import Gamepad from './gamepad';
-/*
-import { Keyboard, Gamepad, or, and } from 'contro';
-
-const keyboard = new Keyboard();
-const gamepad = new Gamepad();
-
-const controls = {
-  red: or(gamepad.button(0).trigger, keyboard.key('k')),
-  yellow: or(gamepad.button(1).trigger, keyboard.key('m')),
-  blue: or(gamepad.button(2).trigger, keyboard.key('i')),
-  green: or(gamepad.button(3).trigger, keyboard.key('j')),
-  left: or(gamepad.button(4).trigger, keyboard.key('t')),
-  right: or(gamepad.button(5).trigger, keyboard.key('y')),
-  select: or(gamepad.button(6).trigger, keyboard.key('g')),
-  start: or(gamepad.button(7).trigger, keyboard.key('h'))
-}
-*/
 
 
 //const jg = new JukeGen();
@@ -25,6 +8,7 @@ const controls = {
 //const pad = new Gamepad(window, navigator);
 let gp, raf;
 
+let pressed = [];
 var button = {
   0: 'red',
   1: 'yellow',
@@ -36,16 +20,32 @@ var button = {
   7: 'start'
 }
 
+function getDpad(pad) {
+  if (pad.axes[0] === 1) {
+    return 'right';
+  } else if (pad.axes[0] === -1) {
+    return 'left';
+  }
+  if (pad.axes[1] === 1) {
+    return 'down';
+  } else if (pad.axes[1] === -1) {
+    return 'up';
+  }
+  return false;
+}
+
+function btnPressed(label, pressed) {
+  return (pressed.indexOf(label) !== -1);
+}
+
 window.addEventListener("gamepadconnected", function(e) {
   gp = navigator.getGamepads()[e.gamepad.index];
   console.log("Gamepad connected at index " + gp.index + ": " + gp.id + ". It has " + gp.buttons.length + " buttons and " + gp.axes.length + " axes.");
-  gameLoop();
+  updateGamepad();
 });
 
-let pressed = [];
 
-
-function gameLoop() {
+function updateGamepad() {
   var gamepads = navigator.getGamepads ? navigator.getGamepads() : (navigator.webkitGetGamepads ? navigator.webkitGetGamepads : []);
   if (!gamepads)
     return;
@@ -64,19 +64,7 @@ function gameLoop() {
     }
   }
 
-  if (gp.axes[0] > 0.5) {
-    console.log('right');
-  } else if (gp.axes[0] < -0.5) {
-    console.log('left');
-  }
-
-  if (gp.axes[1] > 0.5) {
-    console.log('down');
-  } else if (gp.axes[1] < -0.5) {
-    console.log('up');
-  }
-
-  raf = requestAnimationFrame(gameLoop);
+  raf = requestAnimationFrame(updateGamepad);
 };
 
 
@@ -85,20 +73,11 @@ function gameLoop() {
 function draw() {
   //console.log(jg.getFft);
 
-  //console.log(gamepad);
-  /*
-  if (controls.red.query()) console.log('red pressed')
-  if (controls.yellow.query()) console.log('yellow pressed')
-  if (controls.blue.query()) console.log('blue pressed')
-  if (controls.green.query()) console.log('green pressed')
-  if (controls.left.query()) console.log('left pressed')
-  if (controls.right.query()) console.log('right pressed')
-  if (controls.start.query()) console.log('start pressed')
-  if (controls.select.query()) console.log('select pressed')
-  */
+
+  if (gp) console.log(getDpad(gp))
 
   //console.log(pad.gamepad);
   requestAnimationFrame(draw);
 }
 
-//draw();
+draw();
