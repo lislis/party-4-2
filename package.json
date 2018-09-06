@@ -8,7 +8,7 @@
   "license": "MIT",
   "private": false,
   "scripts": {
-    "build": "webpack -p",-
+    "build": "webpack -p",
     "start": "webpack-dev-server --open"
   },
   "devDependencies": {
