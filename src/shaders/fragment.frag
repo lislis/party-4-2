@@ -14,7 +14,7 @@ uniform float u_time;
 uniform vec3 u_rgb;
 uniform int u_diameter;
 uniform int u_noisedetail;
-//uniform float u_fft[4];
+uniform float u_fft[512]; // has to match whatever comes from jukegen's analyser
 
 void main() {
     vec2 st = gl_FragCoord.xy/u_resolution;

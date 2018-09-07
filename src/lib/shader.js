@@ -26,7 +26,7 @@ export default class Shader{
     this.gl = canvas.getContext('webgl') || canvas.getContext('experimental-webgl');
     this.gl.viewport(0, 0, this.gl.drawingBufferWidth, this.gl.drawingBufferHeight);
     this.program = null;
-    this.fft = [1, 2, 3, 4];
+    this.fft = new Array(512);
     this.diameter = 5;
     this.rgb = [30, 100, 120];
     this.noiseDetail = 4;
@@ -97,8 +97,8 @@ export default class Shader{
       let noiseLoc = this.gl.getUniformLocation(this.program, "u_noisedetail");
       this.gl.uniform1i(noiseLoc, this.noiseDetail);
 
-      //let fftLoc = this.gl.getUniformLocation(this.program, "u_fft");
-      //this.gl.uniform1fv(fftLoc, this.fft);
+      let fftLoc = this.gl.getUniformLocation(this.program, "u_fft");
+      this.gl.uniform1fv(fftLoc, this.fft);
 
       this.gl.drawArrays(this.gl.TRIANGLES, 0, 6);
     }
