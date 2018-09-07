@@ -1,13 +1,17 @@
 import JukeGen from 'jukegen';
 import Gamepad  from './lib/gamepad';
+import Shader from './lib/shader';
 
 //const jg = new JukeGen();
 //jg.start();
 
 const gamep = new Gamepad();
 
-function draw() {
+const shader = new Shader();
+
+function draw(dt) {
   //console.log(jg.getFft);
+
 
   if (gamep.getPad && gamep.getDpad() !== false) console.log(gamep.getDpad())
   if (gamep.getPad && gamep.getBtnPressed('A')) console.log('A')
