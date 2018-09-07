@@ -3,7 +3,6 @@ import Gamepad  from './lib/gamepad';
 import Shader from './lib/shader';
 import './sass/main.scss';
 
-
 class Party {
   constructor() {
     this.jukebox = new JukeGen();
@@ -13,7 +12,7 @@ class Party {
   }
 
   party() {
-    this.jukebox.start();
+    //this.jukebox.start();
     this.update();
   }
 

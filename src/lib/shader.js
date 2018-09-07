@@ -26,6 +26,10 @@ export default class Shader{
     this.gl = canvas.getContext('webgl') || canvas.getContext('experimental-webgl');
     this.gl.viewport(0, 0, this.gl.drawingBufferWidth, this.gl.drawingBufferHeight);
     this.program = null;
+    this.fft = [1, 2, 3, 4];
+    this.diameter = 5;
+    this.rgb = [30, 100, 120];
+    this.noiseDetail = 4;
     this.initProgram();
   }
 
@@ -84,6 +88,18 @@ export default class Shader{
       let timeVal = dt;
       this.gl.uniform1f(timeLoc, timeVal);
 
+      let rgbLoc = this.gl.getUniformLocation(this.program, "u_rgb");
+      this.gl.uniform3iv(rgbLoc, this.rgb);
+
+      let diaLoc = this.gl.getUniformLocation(this.program, "u_diameter");
+      this.gl.uniform1i(diaLoc, this.diameter);
+
+      let noiseLoc = this.gl.getUniformLocation(this.program, "u_noisedetail");
+      this.gl.uniform1i(noiseLoc, this.noiseDetail);
+
+      //let fftLoc = this.gl.getUniformLocation(this.program, "u_fft");
+      //this.gl.uniform1fv(fftLoc, this.fft);
+
       this.gl.drawArrays(this.gl.TRIANGLES, 0, 6);
     }
     requestAnimationFrame(this.render.bind(this));
@@ -103,5 +119,25 @@ export default class Shader{
         1.0,  1.0]),
       this.gl.STATIC_DRAW
     );
+  }
+
+  setRgb(array) {
+    this.rgb = array;
+    return this.rgb;
+  }
+
+  setFft(array) {
+    this.fft = array;
+    return true;
+  }
+
+  setDiameter(int) {
+    this.diameter = int;
+    return this.diameter;
+  }
+
+  setNoiseDetail(int) {
+    this.noiseDetail = int;
+    return this.noiseDetail;
   }
 }

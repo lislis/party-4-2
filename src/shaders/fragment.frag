@@ -11,9 +11,12 @@ precision mediump int;
 
 uniform vec2 u_resolution;
 uniform float u_time;
+uniform vec3 u_rgb;
+uniform int u_diameter;
+uniform int u_noisedetail;
+//uniform float u_fft[4];
 
 void main() {
     vec2 st = gl_FragCoord.xy/u_resolution;
     gl_FragColor = vec4(st.y,st.x,u_time / 10000.0, 1.0);
-
 }
