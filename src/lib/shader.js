@@ -1,3 +1,21 @@
+/**
+** Setup to initialize a canvas and webGL rendering
+**
+** let shader = new Shader()
+** Where `shader` is not technically semantically correct, but oh well
+**
+** What happens? We'll create a canvas element and append it to the body.
+** We get the GL context of that canvas which let's us do all the GL magic!
+** Then we'll fetch the vertex and fragment shaders and initalize the program.
+** The program is basically the two shaders running in the GL context.
+** Then we start an internal update loop to re-render the shader.
+** This is also where we pass uniforms into the fragment shader to make things
+** move and stuff.
+**
+** I would be nothing without this blog tho
+** https://webglfundamentals.org/webgl/lessons/webgl-shaders-and-glsl.html
+**/
+
 export default class Shader{
   constructor() {
     let canvas = document.createElement('canvas');

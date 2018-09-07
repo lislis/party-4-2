@@ -1,3 +1,21 @@
+/**
+** Hacky gamepad interface
+**
+** let gamepad = new Gamepad();
+** ^ this will query navigator.getGamepads() and start internal update loop
+**
+** query for buttons with
+** pagepad.getBtnPressed('btnlabel')
+** -> true | false
+**
+** query dpad with
+** gamepad.getDpad()
+** -> 'up' | 'down' | 'left' | 'right'
+** ^ this will not be able to detect 'up and right' or similar
+** but it's ok for my use case
+**
+**/
+
 export default class Gamepad {
   constructor() {
     this.index = 0;
