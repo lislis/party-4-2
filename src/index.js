@@ -2,6 +2,8 @@ import JukeGen from 'jukegen';
 import Gamepad  from './lib/gamepad';
 import Shader from './lib/shader';
 
+import './sass/main.scss';
+
 //const jg = new JukeGen();
 //jg.start();
 

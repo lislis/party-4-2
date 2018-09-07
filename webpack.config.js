@@ -1,5 +1,6 @@
 const path = require('path');
 const CopyWebpackPlugin = require('copy-webpack-plugin');
+const MiniCssExtractPlugin = require("mini-css-extract-plugin");
 
 module.exports = {
   entry: './src/index.js',
@@ -18,6 +19,14 @@ module.exports = {
             presets: ['@babel/preset-env']
           }
         }
+      },
+      {
+        test: /\.scss$/,
+        use: [
+          process.env.NODE_ENV !== 'production' ? 'style-loader' : MiniCssExtractPlugin.loader,
+          "css-loader", // translates CSS into CommonJS
+          "sass-loader" // compiles Sass to CSS, using Node Sass by default
+        ]
       }
     ]
   },
@@ -28,6 +37,10 @@ module.exports = {
     new CopyWebpackPlugin([
       { from: 'src/shaders/',
         to: 'shaders/'}
-    ], { copyUnmodified: true })
+    ], { copyUnmodified: true }),
+    new MiniCssExtractPlugin({
+      filename: "main.css",
+      chunkFilename: "chunk.css"
+    })
   ]
 };
