@@ -1,27 +1,35 @@
 import JukeGen from 'jukegen';
 import Gamepad  from './lib/gamepad';
 import Shader from './lib/shader';
-
 import './sass/main.scss';
 
-//const jg = new JukeGen();
-//jg.start();
 
-const gamep = new Gamepad();
+class Party {
+  constructor() {
+    this.jukebox = new JukeGen();
+    //jg.start();
+    this.pad = new Gamepad();
+    this.shader = new Shader();
+  }
 
-const shader = new Shader();
+  party() {
+    this.jukebox.start();
+    this.update();
+  }
 
-function draw(dt) {
-  //console.log(jg.getFft);
+  update() {
+    //console.log(jg.getFft);
+
+    if (this.pad.getPad && this.pad.getDpad() !== false) console.log(this.pad.getDpad())
+    if (this.pad.getPad && this.pad.getBtnPressed('A')) console.log('A')
+    if (this.pad.getPad && this.pad.getBtnPressed('B')) console.log('B')
+    if (this.pad.getPad && this.pad.getBtnPressed('X')) console.log('X')
+    if (this.pad.getPad && this.pad.getBtnPressed('Y')) console.log('Y')
 
 
-  if (gamep.getPad && gamep.getDpad() !== false) console.log(gamep.getDpad())
-  if (gamep.getPad && gamep.getBtnPressed('A')) console.log('A')
-  if (gamep.getPad && gamep.getBtnPressed('B')) console.log('B')
-  if (gamep.getPad && gamep.getBtnPressed('X')) console.log('X')
-  if (gamep.getPad && gamep.getBtnPressed('Y')) console.log('Y')
-
-  requestAnimationFrame(draw);
+    requestAnimationFrame(this.update.bind(this));
+  }
 }
 
-draw();
+const party = new Party();
+party.party();
