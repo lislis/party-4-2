@@ -7,7 +7,6 @@ export default class Shader{
     document.getElementsByTagName('body')[0].appendChild(canvas);
     this.gl = canvas.getContext('webgl') || canvas.getContext('experimental-webgl');
     this.gl.viewport(0, 0, this.gl.drawingBufferWidth, this.gl.drawingBufferHeight);
-    //return gl;
     this.program = null;
     this.initProgram();
   }

@@ -1,4 +1,5 @@
 const path = require('path');
+const CopyWebpackPlugin = require('copy-webpack-plugin');
 
 module.exports = {
   entry: './src/index.js',
@@ -22,5 +23,11 @@ module.exports = {
   },
   devServer: {
     contentBase: './dist'
-  }
+  },
+  plugins: [
+    new CopyWebpackPlugin([
+      { from: 'src/shaders/',
+        to: 'shaders/'}
+    ], { copyUnmodified: true })
+  ]
 };
