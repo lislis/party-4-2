@@ -16,12 +16,42 @@
 ** https://webglfundamentals.org/webgl/lessons/webgl-shaders-and-glsl.html
 **/
 
+// https://gist.github.com/addyosmani/5434533
+var limitLoop = function (fn, fps) {
+
+  // Use var then = Date.now(); if you
+  // don't care about targetting < IE9
+  var then = new Date().getTime();
+
+  // custom fps, otherwise fallback to 60
+  fps = fps || 60;
+  var interval = 1000 / fps;
+
+  return (function loop(time){
+    requestAnimationFrame(loop);
+
+    // again, Date.now() if it's available
+    var now = new Date().getTime();
+    var delta = now - then;
+
+    if (delta > interval) {
+      // Update time
+      // now - (delta % interval) is an improvement over just
+      // using then = now, which can end up lowering overall fps
+      then = now - (delta % interval);
+
+      // call the fn
+      fn();
+    }
+  }(0));
+};
+
 export default class Shader{
   constructor() {
     let canvas = document.createElement('canvas');
     canvas.id = 'c';
-    canvas.width  = window.innerWidth;
-    canvas.height = window.innerHeight;
+    canvas.width  = window.screen.availWidth / 2;
+    canvas.height = window.screen.availWidth / 2;
     document.getElementsByTagName('body')[0].appendChild(canvas);
     this.gl = canvas.getContext('webgl') || canvas.getContext('experimental-webgl');
     this.gl.viewport(0, 0, this.gl.drawingBufferWidth, this.gl.drawingBufferHeight);
@@ -81,7 +111,8 @@ export default class Shader{
       this.gl.vertexAttribPointer(positionLocation, 2, this.gl.FLOAT, false, 0, 0);
 
       let resLoc = this.gl.getUniformLocation(this.program, "u_resolution");
-      let resVal = [window.screen.availWidth, window.screen.availHeight];
+      //let resVal = [window.screen.availWidth, window.screen.availHeight];
+      let resVal = [window.innerWidth / 2, window.innerWidth / 2];
       this.gl.uniform2fv(resLoc, resVal);
 
       let timeLoc = this.gl.getUniformLocation(this.program, "u_time");
@@ -102,7 +133,7 @@ export default class Shader{
 
       this.gl.drawArrays(this.gl.TRIANGLES, 0, 6);
     }
-    requestAnimationFrame(this.render.bind(this));
+    limitLoop(this.render.bind(this), 30);
   }
 
   setupBuffer(glContext) {
