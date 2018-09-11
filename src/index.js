@@ -6,18 +6,21 @@ import './sass/main.scss';
 class Party {
   constructor() {
     this.jukebox = new JukeGen();
-    //jg.start();
     this.pad = new Gamepad();
-    this.shader = new Shader();
+      this.shader = new Shader();
+      window.jj = this.jukebox;
+      window.sh = this.shader;
   }
 
   party() {
-    //this.jukebox.start();
+    this.jukebox.start();
+      //console.log(this.jukebox.getFft.join());
     this.update();
   }
 
   update() {
-    //console.log(jg.getFft);
+      //console.log(this.jukebox.getFft.join());
+    this.shader.setFft(this.jukebox.getFft);
 
     if (this.pad.getPad && this.pad.getDpad() !== false) console.log(this.pad.getDpad())
     if (this.pad.getPad && this.pad.getBtnPressed('A')) console.log('A')

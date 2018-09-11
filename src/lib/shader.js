@@ -56,10 +56,10 @@ export default class Shader{
     this.gl = canvas.getContext('webgl') || canvas.getContext('experimental-webgl');
     this.gl.viewport(0, 0, this.gl.drawingBufferWidth, this.gl.drawingBufferHeight);
     this.program = null;
-    this.fft = new Array(512);
-    this.diameter = 5;
+    this.fft = new Float32Array(512);
+    this.diameter = 0.5;
     this.rgb = [30, 100, 120];
-    this.noiseDetail = 4;
+    this.noiseDetail = 40;
     this.initProgram();
   }
 
@@ -123,17 +123,18 @@ export default class Shader{
       this.gl.uniform3iv(rgbLoc, this.rgb);
 
       let diaLoc = this.gl.getUniformLocation(this.program, "u_diameter");
-      this.gl.uniform1i(diaLoc, this.diameter);
+      this.gl.uniform1f(diaLoc, this.diameter);
 
       let noiseLoc = this.gl.getUniformLocation(this.program, "u_noisedetail");
-      this.gl.uniform1i(noiseLoc, this.noiseDetail);
+      this.gl.uniform1f(noiseLoc, this.noiseDetail);
 
-      let fftLoc = this.gl.getUniformLocation(this.program, "u_fft");
-      this.gl.uniform1fv(fftLoc, this.fft);
+      let fftLoc = this.gl.getUniformLocation(this.program, "u_fft[0]");
+        this.gl.uniform1f(fftLoc, this.fft[0]);
+        //this.gl.uniform1fv(fftLoc, fft_dummy);
 
       this.gl.drawArrays(this.gl.TRIANGLES, 0, 6);
     }
-    limitLoop(this.render.bind(this), 30);
+    requestAnimationFrame(this.render.bind(this));
   }
 
   setupBuffer(glContext) {
@@ -158,7 +159,7 @@ export default class Shader{
   }
 
   setFft(array) {
-    this.fft = array;
+    this.fft = new Float32Array(array);
     return true;
   }
 
