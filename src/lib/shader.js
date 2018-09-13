@@ -58,7 +58,7 @@ export default class Shader{
     this.program = null;
     this.fft = new Float32Array(512);
     this.diameter = 0.5;
-    this.rgb = [30, 100, 120];
+    this.rgb = 1;
     this.noiseDetail = 40;
     this.initProgram();
   }
@@ -122,7 +122,7 @@ export default class Shader{
       this.gl.uniform2fv(this.resolutionLocation, resVal);
       let timeVal = dt;
       this.gl.uniform1f(this.timeLocation, timeVal);
-      this.gl.uniform3iv(this.rgbLocation, this.rgb);
+      this.gl.uniform1i(this.rgbLocation, this.rgb);
       this.gl.uniform1f(this.diameterLocation, this.diameter);
       this.gl.uniform1f(this.noiseLocation, this.noiseDetail);
       this.gl.uniform1fv(this.fftLocation, this.fft);

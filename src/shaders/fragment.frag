@@ -4,15 +4,13 @@ precision mediump float;
 
 uniform vec2 u_resolution;
 uniform float u_time;
-uniform vec3 u_rgb;
+uniform int u_rgb;
 uniform float u_diameter;
 uniform float u_noisedetail;
-int LENGTH = 512;
-uniform float u_fft[512]; // has to match whatever comes from jukegen's analyser
+uniform float u_fft[256]; // has to match whatever comes from jukegen's analyser
 
 float noisedetail = u_noisedetail; // change me
 float diameter = u_diameter; //change me
-float rgb = 0.;
 
 #define PI 3.14159265359
 
@@ -29,63 +27,60 @@ float circle(in vec2 _st, in float _radius){
                          dot(dist,dist)*4.0);
 }
 
-float box(in vec2 _st, in vec2 _size){
-    _size = vec2(0.5) - _size*0.5;
-    vec2 uv = smoothstep(_size,
-                         _size+vec2(0.001),
-                         _st);
-    uv *= smoothstep(_size,
-                     _size+vec2(0.001),
-                     vec2(1.0)-_st);
-    return uv.x*uv.y;
+float plot (vec2 st, float pct){
+    return  smoothstep( pct-0.001, pct, st.y) -
+        smoothstep( pct, pct+0.001, st.y);
 }
 
-float plot (vec2 st, float pct){
-    return  smoothstep( pct-0.01, pct, st.y) -
-        smoothstep( pct, pct+0.01, st.y);
+float plotX (vec2 st, float pct){
+    return  smoothstep( pct-0.001, pct, st.x) -
+        smoothstep( pct, pct+0.001, st.x);
 }
 
 void main() {
     vec2 st = gl_FragCoord.xy/u_resolution.xy;
     //st.x *= u_resolution.x/u_resolution.y;
+    vec3 color = vec3(0.7);
 
-    vec3 color = vec3(0.);
-
+    // Background random pattern
     vec2 pixSt = st * noisedetail; // Scale the coordinate system by 10
     vec2 ipos = floor(pixSt);  // get the integer coords
-    //vec2 fpos = fract(pixSt);  // get the fractional coods
     float pct = distance(st,vec2(0.5));
+
+
+    float circle_big = circle(st, abs(sin(u_time + 0.1) * diameter) + 0.2);
+    //float circle_small = circle(st, abs(sin(u_time + 0.1) * diameter) + 0.15);
+    //float circle = circle_big - circle_small;
+
+
 
     // Assign a random value based on the integer coord
     float freq = sin(abs(atan(u_time)*0.8));
-    float circle_big = circle(st, abs(sin(u_time + 0.1) * diameter) + 0.2);
-    float circle_small = circle(st, abs(sin(u_time + 0.1) * diameter) + 0.15);
-    float circle = circle_big - circle_small;
-
-    float rando_val = clamp((random( ipos * freq)), 0.4, 0.5);
+    float rando_val = clamp((random( ipos * freq)), 0.5, 0.6);
 
     color.b = rando_val;
     color.r = rando_val;
     color.g = rando_val;
-    //color.r = circle;
-    //color.g = circle;
 
     color = pct / color * 0.9;
 
     float pct2;
-    for (int i = 0; i < 512; i++) {
-        //float slice = 1. / 512.;
-        float v = abs(u_fft[i]); //fft
-        //float val = slice + v; //(slice * float(i));
-        //float y = v * st.y * 0.5;
+    for (int i = 0; i < 256; i++) {
+        float v = abs(u_fft[i]);
         pct2 = smoothstep(0.0, 256.0, v);
-        color.r += plot(st, pct2);
+
+        if (u_rgb == 0) {
+            color.r += plot(st, pct2) - plotX(st, pct2);
+        } else if (u_rgb == 1) {
+            color.b += plot(st, pct2) - plotX(st, pct2);
+        } else if (u_rgb == 2) {
+            color.g += plot(st, pct2) - plotX(st, pct2);
+        } else if (u_rgb == 3) {
+            color.rg += plot(st, pct2) - plotX(st, pct2);
+        }
     }
 
-
-
-    //    color = vec3(circle(st, 0.8));
-    //float slice = st.x / float(512.);
+    color *= circle_big;
 
     gl_FragColor = vec4(color,1.0);
 }
