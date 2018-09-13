@@ -7,7 +7,8 @@ uniform float u_time;
 uniform vec3 u_rgb;
 uniform float u_diameter;
 uniform float u_noisedetail;
-uniform float u_fft; // has to match whatever comes from jukegen's analyser
+int LENGTH = 512;
+uniform float u_fft[512]; // has to match whatever comes from jukegen's analyser
 
 float noisedetail = u_noisedetail; // change me
 float diameter = u_diameter; //change me
@@ -72,15 +73,17 @@ void main() {
     color = pct / color * 0.9;
 
     float pct2;
-    //for (int i = 0; i < u_fft.length; i++) {
+    for (int i = 0; i < 512; i++) {
         //float slice = 1. / 512.;
-        float v = abs(u_fft); //fft
+        float v = abs(u_fft[i]); //fft
         //float val = slice + v; //(slice * float(i));
         //float y = v * st.y * 0.5;
         pct2 = smoothstep(0.0, 256.0, v);
-        //}
+        color.r += plot(st, pct2);
+    }
 
-    color.r += plot(st, pct2);
+
+
     //    color = vec3(circle(st, 0.8));
     //float slice = st.x / float(512.);
 

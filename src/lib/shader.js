@@ -128,8 +128,8 @@ export default class Shader{
       let noiseLoc = this.gl.getUniformLocation(this.program, "u_noisedetail");
       this.gl.uniform1f(noiseLoc, this.noiseDetail);
 
-      let fftLoc = this.gl.getUniformLocation(this.program, "u_fft[0]");
-        this.gl.uniform1f(fftLoc, this.fft[0]);
+      let fftLoc = this.gl.getUniformLocation(this.program, "u_fft");
+        this.gl.uniform1fv(fftLoc, this.fft);
         //this.gl.uniform1fv(fftLoc, fft_dummy);
 
       this.gl.drawArrays(this.gl.TRIANGLES, 0, 6);
