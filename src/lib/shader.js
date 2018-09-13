@@ -16,36 +16,6 @@
 ** https://webglfundamentals.org/webgl/lessons/webgl-shaders-and-glsl.html
 **/
 
-// https://gist.github.com/addyosmani/5434533
-var limitLoop = function (fn, fps) {
-
-  // Use var then = Date.now(); if you
-  // don't care about targetting < IE9
-  var then = new Date().getTime();
-
-  // custom fps, otherwise fallback to 60
-  fps = fps || 60;
-  var interval = 1000 / fps;
-
-  return (function loop(time){
-    requestAnimationFrame(loop);
-
-    // again, Date.now() if it's available
-    var now = new Date().getTime();
-    var delta = now - then;
-
-    if (delta > interval) {
-      // Update time
-      // now - (delta % interval) is an improvement over just
-      // using then = now, which can end up lowering overall fps
-      then = now - (delta % interval);
-
-      // call the fn
-      fn();
-    }
-  }(0));
-};
-
 export default class Shader{
   constructor() {
     let canvas = document.createElement('canvas');
@@ -57,7 +27,7 @@ export default class Shader{
     this.gl = canvas.getContext('webgl') || canvas.getContext('experimental-webgl');
     this.gl.viewport(0, 0, this.gl.drawingBufferWidth, this.gl.drawingBufferHeight);
     this.program = null;
-    this.fft = new Float32Array(512);
+    this.fft = [];
     this.type = 0;
     this.rgb = 1;
     this.noiseDetail = 40;
@@ -112,13 +82,12 @@ export default class Shader{
   }
 
   render(dt) {
-    if (this.program) {
+    if (this.program && this.fft.length) {
       this.gl.clearColor(1.0, 0.0, 0.0, 1.0);
       this.gl.clear(this.gl.COLOR_BUFFER_BIT);
 
       this.gl.enableVertexAttribArray(this.positionLocation);
       this.gl.vertexAttribPointer(this.positionLocation, 2, this.gl.FLOAT, false, 0, 0);
-      //let resVal = [window.screen.availWidth, window.screen.availHeight];
       let resVal = [window.innerHeight, window.innerHeight];
       this.gl.uniform2fv(this.resolutionLocation, resVal);
       let timeVal = dt;
@@ -127,7 +96,6 @@ export default class Shader{
       this.gl.uniform1i(this.typeLocation, this.type);
       this.gl.uniform1f(this.noiseLocation, this.noiseDetail);
       this.gl.uniform1fv(this.fftLocation, this.fft);
-      //this.gl.uniform1fv(fftLoc, fft_dummy);
 
       this.gl.drawArrays(this.gl.TRIANGLES, 0, 6);
     }

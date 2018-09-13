@@ -6,7 +6,6 @@ import './sass/main.scss';
 const colorMaps = ['red', 'blue', 'green', 'yellow'];
 const typeMaps = ['dots', 'x', 'y', 'cross'];
 
-
 class Party {
   constructor() {
     this.jukebox = new JukeGen();
@@ -23,13 +22,20 @@ class Party {
     this.update();
   }
 
-  update() {
+  update(dt) {
     this.shader.setFft(this.jukebox.getFft);
+    //this.shader.render(dt);
 
     if (this.pad.getPad) {
 
-      if (this.musicMode) {
+      if (this.pad.getBtnPressed('select')) {
+        this.musicMode = true;
+      }
+      if (this.pad.getBtnPressed('start')) {
+        this.musicMode = false;
+      }
 
+      if (this.musicMode) {
         if (this.pad.getBtnPressed('l')) {
           this.jukebox.setVolume(this.jukebox.getVolume - 1);
         } else if (this.pad.getBtnPressed('r')) {
@@ -88,15 +94,17 @@ class Party {
         }
       }
     }
-    this.log();
+    //this.log();
     requestAnimationFrame(this.update.bind(this));
   }
 
   log() {
-    console.log(this.shader.type, this.shader.rgb, this.shader.getNoiseDetail,
-                this.jukebox.getDistortion, this.jukebox.getChorus,
-                this.jukebox.getBpm, this.jukebox.getVolume,
-                this.jukebox.getTension);
+    console.log('shader: '+ this.shader.type, 'rgb: '+ this.shader.rgb,
+                'noise: ' + this.shader.getNoiseDetail,
+                'distortion: ' + this.jukebox.getDistortion,
+                'chorus: '+ this.jukebox.getChorus,
+                'bpm: '+ this.jukebox.getBpm, 'vol: '+ this.jukebox.getVolume,
+                'tension'+ this.jukebox.getTension);
   }
 }
 

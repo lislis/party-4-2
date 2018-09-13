@@ -22,12 +22,14 @@ export default class Gamepad {
     this.pressed = [];
     this.pad = false;
     this.buttonMap = [
-      'A',
       'B',
-      'X',
+      'A',
       'Y',
+      'X',
       'l',
       'r',
+      '?',
+      '?',
       'select',
       'start'
     ];
@@ -36,8 +38,8 @@ export default class Gamepad {
     window.addEventListener("gamepadconnected", function(e) {
       self.index = e.gamepad.index;
       self.pad = navigator.getGamepads()[self.index];
-      console.log("pad connected");
-      self.update();
+      console.log("Gamepad: connected");
+      self.scan();
     });
   }
 
@@ -45,27 +47,24 @@ export default class Gamepad {
     return this.pad;
   }
 
-  update() {
+  scan() {
     const gamepads = navigator.getGamepads();
     if (gamepads) {
       this.pad = gamepads[0];
       for (var b = 0; b < this.pad.buttons.length; b++) {
         let indexInMap = this.pressed.indexOf(this.buttonMap[b]);
-        if (this.pad.buttons[b].pressed) {
-          if (indexInMap === -1) {
-            this.pressed.push(this.buttonMap[b]);
-            //console.log(this.pressed);
-          }
+        if (this.pad.buttons[b].pressed && indexInMap === -1) {
+          this.pressed.push(this.buttonMap[b]);
+          //console.log(this.pressed, b, this.buttonMap[b]);
         } else {
-          if (indexInMap !== -1) {
+          if (indexInMap !== -1 && !this.pad.buttons[b].pressed) {
             this.pressed.splice(indexInMap, 1);
           }
         }
       }
     } else {
-      console.log('no pads found');
+      console.log('Gamepad: no pads found');
     }
-    //requestAnimationFrame(this.update.bind(this));
   }
 
   getDpad() {
@@ -83,7 +82,7 @@ export default class Gamepad {
   }
 
   getBtnPressed(btnLabel) {
-    this.update();
+    this.scan();
     return this.pressed.indexOf(btnLabel) !== -1;
   }
 }

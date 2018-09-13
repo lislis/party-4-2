@@ -34,7 +34,6 @@ float plotY (vec2 st, float pct, float thickness){
 
 void main() {
     vec2 st = gl_FragCoord.xy/u_resolution.xy;
-    //st.x *= u_resolution.x/u_resolution.y;
     vec3 color = vec3(0.7);
 
     //
@@ -47,10 +46,6 @@ void main() {
     float freq = sin(abs(atan(u_time)*0.8));
     float rando_val = clamp((random( ipos * freq)), 0.6, 0.7);
 
-//    color.b = rando_val;
-//    color.r = rando_val;
-//    color.g = rando_val;
-
     //color = pct / color * 0.9; // creates little shadow
 
     //
@@ -59,7 +54,7 @@ void main() {
     float pct2;
     for (int i = 0; i < 256; i++) {
         float v = abs(u_fft[i]);
-        pct2 = smoothstep(0.0, 256.0, v);
+        pct2 = smoothstep(0.0, 128.0, v);
 
         float value;
         if (u_type == 0) {
@@ -73,10 +68,11 @@ void main() {
         }
 
         if (u_rgb == 0) {
-            color.b = rando_val;
+            color.g = rando_val;
             color.r += value;
         } else if (u_rgb == 1) {
             color.g = rando_val;
+            color.r = rando_val;
             color.b += value;
         } else if (u_rgb == 2) {
             color.r = rando_val;
