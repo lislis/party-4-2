@@ -65,7 +65,7 @@ export default class Gamepad {
     } else {
       console.log('no pads found');
     }
-    requestAnimationFrame(this.update.bind(this));
+    //requestAnimationFrame(this.update.bind(this));
   }
 
   getDpad() {
@@ -83,6 +83,7 @@ export default class Gamepad {
   }
 
   getBtnPressed(btnLabel) {
+    this.update();
     return this.pressed.indexOf(btnLabel) !== -1;
   }
 }

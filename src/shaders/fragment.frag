@@ -17,8 +17,8 @@ float random (vec2 st) {
 
 float circle(in vec2 _st, in float _radius){
     vec2 dist = _st-vec2(0.5);
-    return 1.-smoothstep(_radius-(_radius*1.5),
-                         _radius+(_radius*1.5),
+    return 1.-smoothstep(_radius-(_radius*0.7),
+                         _radius+(_radius*0.7),
                          dot(dist,dist)*4.0);
 }
 
@@ -47,9 +47,9 @@ void main() {
     float freq = sin(abs(atan(u_time)*0.8));
     float rando_val = clamp((random( ipos * freq)), 0.6, 0.7);
 
-    color.b = rando_val;
-    color.r = rando_val;
-    color.g = rando_val;
+//    color.b = rando_val;
+//    color.r = rando_val;
+//    color.g = rando_val;
 
     //color = pct / color * 0.9; // creates little shadow
 
@@ -73,12 +73,16 @@ void main() {
         }
 
         if (u_rgb == 0) {
+            color.b = rando_val;
             color.r += value;
         } else if (u_rgb == 1) {
+            color.g = rando_val;
             color.b += value;
         } else if (u_rgb == 2) {
+            color.r = rando_val;
             color.g += value;
         } else if (u_rgb == 3) {
+            color.b = rando_val;
             color.rg += value;
         }
     }

@@ -50,8 +50,9 @@ export default class Shader{
   constructor() {
     let canvas = document.createElement('canvas');
     canvas.id = 'c';
-    canvas.width  = window.screen.availWidth / 2;
-    canvas.height = window.screen.availWidth / 2;
+    canvas.classList.add('canvas');
+    canvas.width  = window.screen.availHeight;
+    canvas.height = window.screen.availHeight;
     document.getElementsByTagName('body')[0].appendChild(canvas);
     this.gl = canvas.getContext('webgl') || canvas.getContext('experimental-webgl');
     this.gl.viewport(0, 0, this.gl.drawingBufferWidth, this.gl.drawingBufferHeight);
@@ -118,7 +119,7 @@ export default class Shader{
       this.gl.enableVertexAttribArray(this.positionLocation);
       this.gl.vertexAttribPointer(this.positionLocation, 2, this.gl.FLOAT, false, 0, 0);
       //let resVal = [window.screen.availWidth, window.screen.availHeight];
-      let resVal = [window.innerWidth / 2, window.innerWidth / 2];
+      let resVal = [window.innerHeight, window.innerHeight];
       this.gl.uniform2fv(this.resolutionLocation, resVal);
       let timeVal = dt;
       this.gl.uniform1f(this.timeLocation, timeVal);
@@ -149,8 +150,12 @@ export default class Shader{
     );
   }
 
-  setRgb(array) {
-    this.rgb = array;
+  get getNoiseDetail() {
+    return this.noiseDetail;
+  }
+
+  setRgb(int) {
+    this.rgb = int;
     return this.rgb;
   }
 
@@ -165,7 +170,9 @@ export default class Shader{
   }
 
   setNoiseDetail(int) {
-    this.noiseDetail = int;
+    if (int >= 0 && int <= 200) {
+      this.noiseDetail = int;
+    }
     return this.noiseDetail;
   }
 }

@@ -11,27 +11,71 @@ class Party {
   constructor() {
     this.jukebox = new JukeGen();
     this.pad = new Gamepad();
-      this.shader = new Shader();
-      window.jj = this.jukebox;
-      window.sh = this.shader;
+    this.shader = new Shader();
+    this.musicMode = true;
+
+    window.jj = this.jukebox;
+    window.sh = this.shader;
   }
 
   party() {
     this.jukebox.start();
-      //console.log(this.jukebox.getFft.join());
     this.update();
   }
 
   update() {
-      //console.log(this.jukebox.getFft.join());
     this.shader.setFft(this.jukebox.getFft);
 
-    if (this.pad.getPad && this.pad.getDpad() !== false) console.log(this.pad.getDpad())
-    if (this.pad.getPad && this.pad.getBtnPressed('A')) console.log('A')
-    if (this.pad.getPad && this.pad.getBtnPressed('B')) console.log('B')
-    if (this.pad.getPad && this.pad.getBtnPressed('X')) console.log('X')
-    if (this.pad.getPad && this.pad.getBtnPressed('Y')) console.log('Y')
+    if (this.pad.getPad) {
 
+      if (this.musicMode) {
+
+        if (this.pad.getBtnPressed('l')) {
+          this.jukebox.setBpm(this.jukebox.getBpm - 10);
+        } else if (this.pad.getBtnPressed('r')) {
+          this.jukebox.setBpm(this.jukebox.getBpm + 10);
+        }
+
+        if (this.pad.getBtnPressed('X')) {
+          this.jukebox.setTension(this.jukebox.getTension - 1);
+        } else if (this.pad.getBtnPressed('Y')) {
+          this.jukebox.setTension(this.jukebox.getTensoinn + 1);
+        }
+
+        if (this.pad.getBtnPressed('A')) {
+          this.jukebox.setDistortion(this.jukebox.getDistortion - 0.2);
+        } else if (this.pad.getBtnPressed('B')) {
+          this.jukebox.setDistortion(this.jukebox.getDistortion + 0.2);
+        }
+
+      } else {
+        if (this.pad.getBtnPressed('A')) {
+          this.shader.setRgb(colorMaps.indexOf('red'));
+        } else if (this.pad.getBtnPressed('B')) {
+          this.shader.setRgb(colorMaps.indexOf('yellow'));
+        } else if (this.pad.getBtnPressed('X')) {
+          this.shader.setRgb(colorMaps.indexOf('blue'));
+        } else if (this.pad.getBtnPressed('Y')) {
+          this.shader.setRgb(colorMaps.indexOf('green'));
+        }
+
+        if (this.pad.getBtnPressed('l')) {
+          this.shader.setNoiseDetail(this.shader.getNoiseDetail - 10);
+        } else if (this.pad.getBtnPressed('r')) {
+          this.shader.setNoiseDetail(this.shader.getNoiseDetail + 10);
+        }
+
+        if (this.pad.getDpad() === 'up') {
+          this.shader.setType(typeMaps.indexOf('dots'));
+        } else if (this.pad.getDpad() === 'right') {
+          this.shader.setType(typeMaps.indexOf('x'));
+        } else if (this.pad.getDpad() === 'down') {
+          this.shader.setType(typeMaps.indexOf('y'));
+        } else if (this.pad.getDpad() === 'left') {
+          this.shader.setType(typeMaps.indexOf('cross'));
+        }
+      }
+    }
 
     requestAnimationFrame(this.update.bind(this));
   }
