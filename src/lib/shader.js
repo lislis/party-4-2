@@ -97,6 +97,15 @@ export default class Shader{
       this.gl.attachShader(this.program, fragmentShader);
       this.gl.linkProgram(this.program);
       this.gl.useProgram(this.program);
+
+      this.positionLocation = this.gl.getAttribLocation(this.program, "a_position");
+      this.resolutionLocation = this.gl.getUniformLocation(this.program, "u_resolution");
+      this.timeLocation = this.gl.getUniformLocation(this.program, "u_time");
+      this.rgbLocation = this.gl.getUniformLocation(this.program, "u_rgb");
+      this.diameterLocation = this.gl.getUniformLocation(this.program, "u_diameter");
+      this.noiseLocation = this.gl.getUniformLocation(this.program, "u_noisedetail");
+      this.fftLocation = this.gl.getUniformLocation(this.program, "u_fft");
+
       this.render();
     });
   }
@@ -106,31 +115,18 @@ export default class Shader{
       this.gl.clearColor(1.0, 0.0, 0.0, 1.0);
       this.gl.clear(this.gl.COLOR_BUFFER_BIT);
 
-      let positionLocation = this.gl.getAttribLocation(this.program, "a_position");
-      this.gl.enableVertexAttribArray(positionLocation);
-      this.gl.vertexAttribPointer(positionLocation, 2, this.gl.FLOAT, false, 0, 0);
-
-      let resLoc = this.gl.getUniformLocation(this.program, "u_resolution");
+      this.gl.enableVertexAttribArray(this.positionLocation);
+      this.gl.vertexAttribPointer(this.positionLocation, 2, this.gl.FLOAT, false, 0, 0);
       //let resVal = [window.screen.availWidth, window.screen.availHeight];
       let resVal = [window.innerWidth / 2, window.innerWidth / 2];
-      this.gl.uniform2fv(resLoc, resVal);
-
-      let timeLoc = this.gl.getUniformLocation(this.program, "u_time");
+      this.gl.uniform2fv(this.resolutionLocation, resVal);
       let timeVal = dt;
-      this.gl.uniform1f(timeLoc, timeVal);
-
-      let rgbLoc = this.gl.getUniformLocation(this.program, "u_rgb");
-      this.gl.uniform3iv(rgbLoc, this.rgb);
-
-      let diaLoc = this.gl.getUniformLocation(this.program, "u_diameter");
-      this.gl.uniform1f(diaLoc, this.diameter);
-
-      let noiseLoc = this.gl.getUniformLocation(this.program, "u_noisedetail");
-      this.gl.uniform1f(noiseLoc, this.noiseDetail);
-
-      let fftLoc = this.gl.getUniformLocation(this.program, "u_fft");
-        this.gl.uniform1fv(fftLoc, this.fft);
-        //this.gl.uniform1fv(fftLoc, fft_dummy);
+      this.gl.uniform1f(this.timeLocation, timeVal);
+      this.gl.uniform3iv(this.rgbLocation, this.rgb);
+      this.gl.uniform1f(this.diameterLocation, this.diameter);
+      this.gl.uniform1f(this.noiseLocation, this.noiseDetail);
+      this.gl.uniform1fv(this.fftLocation, this.fft);
+      //this.gl.uniform1fv(fftLoc, fft_dummy);
 
       this.gl.drawArrays(this.gl.TRIANGLES, 0, 6);
     }
