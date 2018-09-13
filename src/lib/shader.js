@@ -57,7 +57,7 @@ export default class Shader{
     this.gl.viewport(0, 0, this.gl.drawingBufferWidth, this.gl.drawingBufferHeight);
     this.program = null;
     this.fft = new Float32Array(512);
-    this.diameter = 0.5;
+    this.type = 0;
     this.rgb = 1;
     this.noiseDetail = 40;
     this.initProgram();
@@ -102,7 +102,7 @@ export default class Shader{
       this.resolutionLocation = this.gl.getUniformLocation(this.program, "u_resolution");
       this.timeLocation = this.gl.getUniformLocation(this.program, "u_time");
       this.rgbLocation = this.gl.getUniformLocation(this.program, "u_rgb");
-      this.diameterLocation = this.gl.getUniformLocation(this.program, "u_diameter");
+      this.typeLocation = this.gl.getUniformLocation(this.program, "u_type");
       this.noiseLocation = this.gl.getUniformLocation(this.program, "u_noisedetail");
       this.fftLocation = this.gl.getUniformLocation(this.program, "u_fft");
 
@@ -123,7 +123,7 @@ export default class Shader{
       let timeVal = dt;
       this.gl.uniform1f(this.timeLocation, timeVal);
       this.gl.uniform1i(this.rgbLocation, this.rgb);
-      this.gl.uniform1f(this.diameterLocation, this.diameter);
+      this.gl.uniform1i(this.typeLocation, this.type);
       this.gl.uniform1f(this.noiseLocation, this.noiseDetail);
       this.gl.uniform1fv(this.fftLocation, this.fft);
       //this.gl.uniform1fv(fftLoc, fft_dummy);
@@ -159,9 +159,9 @@ export default class Shader{
     return true;
   }
 
-  setDiameter(int) {
-    this.diameter = int;
-    return this.diameter;
+  setType(int) {
+    this.type = int;
+    return this.type;
   }
 
   setNoiseDetail(int) {

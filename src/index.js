@@ -4,6 +4,7 @@ import Shader from './lib/shader';
 import './sass/main.scss';
 
 const colorMaps = ['red', 'blue', 'green', 'yellow'];
+const typeMaps = ['dots', 'x', 'y', 'cross'];
 
 
 class Party {
