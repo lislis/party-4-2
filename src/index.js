@@ -88,8 +88,15 @@ class Party {
         }
       }
     }
-
+    this.log();
     requestAnimationFrame(this.update.bind(this));
+  }
+
+  log() {
+    console.log(this.shader.type, this.shader.rgb, this.shader.getNoiseDetail,
+                this.jukebox.getDistortion, this.jukebox.getChorus,
+                this.jukebox.getBpm, this.jukebox.getVolume,
+                this.jukebox.getTension);
   }
 }
 
