@@ -6,7 +6,7 @@ import './sass/main.scss';
 const colorMaps = ['red', 'blue', 'green', 'yellow'];
 const typeMaps = ['dots', 'x', 'y', 'cross'];
 
-class Party {
+export default class Party42 {
   constructor() {
     this.jukebox = new JukeGen();
     this.pad = new Gamepad();
@@ -107,6 +107,3 @@ class Party {
                 'tension'+ this.jukebox.getTension);
   }
 }
-
-const party = new Party();
-party.party();
