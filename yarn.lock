@@ -2752,8 +2752,9 @@ jsprim@^1.2.2:
     json-schema "0.2.3"
     verror "1.10.0"
 
-jukegen@../jukegen:
-  version "1.0.0"
+jukegen@^1.0.1:
+  version "1.0.1"
+  resolved "https://registry.yarnpkg.com/jukegen/-/jukegen-1.0.1.tgz#e737885aab28a4a684f981c35edfb39cbce34203"
   dependencies:
     tone "^0.12.80"
 

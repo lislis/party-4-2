@@ -31,21 +31,33 @@ class Party {
       if (this.musicMode) {
 
         if (this.pad.getBtnPressed('l')) {
-          this.jukebox.setBpm(this.jukebox.getBpm - 10);
+          this.jukebox.setVolume(this.jukebox.getVolume - 1);
         } else if (this.pad.getBtnPressed('r')) {
-          this.jukebox.setBpm(this.jukebox.getBpm + 10);
+          this.jukebox.setVolume(this.jukebox.getVolume + 1);
         }
 
         if (this.pad.getBtnPressed('X')) {
-          this.jukebox.setTension(this.jukebox.getTension - 1);
+          this.jukebox.setDistortion(this.jukebox.getDistortion + 0.1);
         } else if (this.pad.getBtnPressed('Y')) {
-          this.jukebox.setTension(this.jukebox.getTensoinn + 1);
+          this.jukebox.setDistortion(this.jukebox.getDistortion - 0.1);
         }
 
         if (this.pad.getBtnPressed('A')) {
-          this.jukebox.setDistortion(this.jukebox.getDistortion - 0.2);
+          this.jukebox.setChorus(this.jukebox.getChorus + 0.1);
         } else if (this.pad.getBtnPressed('B')) {
-          this.jukebox.setDistortion(this.jukebox.getDistortion + 0.2);
+          this.jukebox.setChorus(this.jukebox.getChorus - 0.1);
+        }
+
+        if (this.pad.getDpad() === 'up') {
+          this.jukebox.setBpm(this.jukebox.getBpm + 10);
+        } else if (this.pad.getDpad() === 'down') {
+          this.jukebox.setBpm(this.jukebox.getBpm - 10);
+        }
+
+        if (this.pad.getDpad() === 'right') {
+          this.jukebox.setTension(this.jukebox.getTension + 1);
+        } else if (this.pad.getDpad() === 'left') {
+          this.jukebox.setTension(this.jukebox.getTensoinn - 1);
         }
 
       } else {

@@ -28,6 +28,6 @@
     "webpack-dev-server": "^3.1.7"
   },
   "dependencies": {
-    "jukegen": "../jukegen"
+    "jukegen": "^1.0.1"
   }
 }
