@@ -109,20 +109,20 @@ export default class Party42 {
 }
 
 const party = new Party42();
-party.party();
+//party.party();
 
 
 let title = document.createElement('h1');
 title.classList.add('title');
-title.innerHtml = 'Party:4:2';
+title.innerHTML = 'Party:4:2';
 document.getElementsByTagName('body')[0].appendChild(title);
 
 let mode = document.createElement('p');
 mode.classList.add('mode');
-mode.innerHtml = 'musicMode';
+mode.innerHTML = 'musicMode';
 document.getElementsByTagName('body')[0].appendChild(mode);
 
 let lastAction = document.createElement('p');
 lastAction.classList.add('action');
-lastAction.innerHtml = 'none';
+lastAction.innerHTML = 'none';
 document.getElementsByTagName('body')[0].appendChild(lastAction);

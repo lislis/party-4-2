@@ -1,22 +1,33 @@
 body {
   margin: 0;
   background-color: black;
-  color: #aaa;
+  color: #bbb;
+  font-size: 2rem;
+}
+
+h1, p {
+  margin: 0;;
 }
 
 .title {
   position: absolute;
   z-index: 2;
+  top: 2rem;
+  left: 2rem;
 }
 
 .mode {
   position: absolute;
   z-index: 2;
+  top: 2rem;
+  right: 2rem;
 }
 
 .action {
   position: absolute;
   z-index: 2;
+  bottom: 2rem;
+  right: 2rem;
 }
 
 .canvas {
