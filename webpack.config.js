@@ -37,8 +37,7 @@ module.exports = {
     new CopyWebpackPlugin([
       { from: 'src/shaders/',
         to: 'shaders/'},
-      { from: 'public/',
-        to: ''}
+      { from: 'public' }
     ], { copyUnmodified: true }),
     new MiniCssExtractPlugin({
       filename: "main.css",

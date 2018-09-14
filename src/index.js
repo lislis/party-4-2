@@ -157,4 +157,7 @@ console.log(`A note from the Party:4:2 author:\nHello there! Thank you for check
 If you are here because something does not work, sorry about that! Maybe try another browser?\n
 Just here to take a look around? How lovely! There is some logging output to be seen, maybe you'll enjoy it, too.\nHave a great day!`);
 
-let party = new Party42();
+
+document.addEventListener("DOMContentLoaded", function(event) {
+  let party = new Party42();
+});
