@@ -1,6 +1,6 @@
 {
   "name": "party42",
-  "version": "1.0.1",
+  "version": "1.0.2",
   "description": "A party for your computer and you",
   "main": "index.js",
   "repository": "github.com/lislis/party-4-2",
