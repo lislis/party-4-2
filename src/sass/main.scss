@@ -28,6 +28,57 @@ h1, p {
   z-index: 2;
   bottom: 2rem;
   right: 2rem;
+  width: 200px;
+  text-align: right;
+}
+
+.item {
+  margin-left: 0.5em;
+  margin-right: 0.5em;
+  &:not(:firs-of-type) {
+    color: #999;
+  }
+}
+
+.button {
+  font-size: 2em;
+}
+
+.green {
+  color: green;
+}
+.blue {
+  color: blue;
+}
+.red {
+  color: red;
+}
+.yellow {
+  color: yellow;
+}
+
+.start-btn {
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  right: 0;
+  left: 0;
+  z-index: 2;
+  margin: auto;
+  width: 4em;
+  height: 2em;
+  line-height: 2;
+  border: none;
+  background: #bbb;
+  font: inherit;
+  font-weight: 600;
+  border: 2px solid #bbb;
+  border-radius: 2px;
+  transition: color 200ms ease, background-color 200ms ease;
+  &:hover, &:active {
+    background-color: black;
+    color: #bbb;
+  }
 }
 
 .canvas {
