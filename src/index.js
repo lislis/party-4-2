@@ -28,16 +28,6 @@ export default class Party42 {
     lastAction.classList.add('action');
     lastAction.innerHTML = '';
     docBody.appendChild(lastAction);
-
-    let btn = document.createElement('button');
-    btn.innerHTML = "Ready!";
-    btn.classList.add('start-btn');
-    btn.type = 'button';
-    btn.addEventListener('click', ev => {
-      ev.target.remove();
-      this.party();
-    });
-    docBody.appendChild(btn);
   }
 
   party() {
@@ -154,5 +144,15 @@ export default class Party42 {
 }
 
 document.addEventListener("DOMContentLoaded", function(event) {
-  let party = new Party42();
+  let btn = document.createElement('button');
+  btn.innerHTML = "Ready!";
+  btn.classList.add('start-btn');
+  btn.type = 'button';
+  btn.addEventListener('click', ev => {
+    ev.target.remove();
+    let party = new Party42();
+    party.party();
+  });
+  document.getElementsByTagName('body')[0].appendChild(btn);
+
 });
